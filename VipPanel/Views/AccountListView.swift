@@ -27,7 +27,7 @@ struct AccountListView: View {
             VStack(spacing: 0) {
                 filterBar
                 if filtered.isEmpty {
-                    EmptyBox(title: emptyTitle, hint: "点右上角同步，或到「设置」填写 GitHub Token")
+                    EmptyBox(title: emptyTitle, hint: "点右上角同步，或到「设置」填写 GitHub Token", photo: 25)
                         .frame(maxHeight: .infinity)
                 } else {
                     List {
