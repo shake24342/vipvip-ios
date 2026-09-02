@@ -118,11 +118,11 @@ struct AccountRow: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 9) {
-            HStack(alignment: .center, spacing: 11) {
-                AvatarView(number: GalleryStore.avatarNumber(for: account.slot), size: 46)
-                    .opacity(account.dead ? 0.4 : 1)
+            HStack(alignment: .center, spacing: 12) {
+                CoverPhoto(number: GalleryStore.avatarNumber(for: account.slot), width: 46)
+                    .opacity(account.dead ? 0.45 : 1)
 
-                VStack(alignment: .leading, spacing: 3) {
+                VStack(alignment: .leading, spacing: 5) {
                     HStack(spacing: 6) {
                         Text(account.name)
                             .font(.system(size: 15, weight: .medium))
@@ -136,13 +136,16 @@ struct AccountRow: View {
                         .font(.system(size: 11))
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
+                    ProgressView(value: account.progress)
+                        .tint(Theme.progressColor(days: account.days))
+                        .scaleEffect(x: 1, y: 0.6, anchor: .center)
                 }
 
-                Spacer(minLength: 8)
+                Spacer(minLength: 6)
 
                 VStack(alignment: .trailing, spacing: 0) {
                     Text("\(account.days)")
-                        .font(.system(size: 19, weight: .semibold, design: .rounded))
+                        .font(.system(size: 21, weight: .semibold, design: .rounded))
                         .foregroundStyle(Theme.progressColor(days: account.days))
                     Text("天")
                         .font(.system(size: 10))
@@ -150,11 +153,8 @@ struct AccountRow: View {
                 }
             }
 
-            ProgressView(value: account.progress)
-                .tint(Theme.progressColor(days: account.days))
-                .scaleEffect(x: 1, y: 0.65, anchor: .center)
         }
-        .padding(.vertical, 7)
+        .padding(.vertical, 8)
         .opacity(account.dead ? 0.5 : 1)
         .swipeActions(edge: .trailing, allowsFullSwipe: false) {
             Button {
