@@ -1,0 +1,38 @@
+{
+  "content": null,
+  "commit": {
+    "sha": "fe1ebf595214b94c0f22d5faa114bf42ea5f72ec",
+    "node_id": "C_kwDOUMZb0toAKGZlMWViZjU5NTIxNGI5NGMwZjIyZDVmYWExMTRiZjQyZWE1ZjcyZWM",
+    "url": "https://api.github.com/repos/shake24342/vipvip-ios/git/commits/fe1ebf595214b94c0f22d5faa114bf42ea5f72ec",
+    "html_url": "https://github.com/shake24342/vipvip-ios/commit/fe1ebf595214b94c0f22d5faa114bf42ea5f72ec",
+    "author": {
+      "name": "shake24342",
+      "email": "jzjddhdb@163.com",
+      "date": "2026-09-02T20:55:35Z"
+    },
+    "committer": {
+      "name": "shake24342",
+      "email": "jzjddhdb@163.com",
+      "date": "2026-09-02T20:55:35Z"
+    },
+    "tree": {
+      "sha": "03a508cadd378d1710e62cf77ee82f557d7b78eb",
+      "url": "https://api.github.com/repos/shake24342/vipvip-ios/git/trees/03a508cadd378d1710e62cf77ee82f557d7b78eb"
+    },
+    "message": "remove dup store",
+    "parents": [
+      {
+        "sha": "ff0f592ac9e09333d20a0871b3e5d1fce25516f4",
+        "url": "https://api.github.com/repos/shake24342/vipvip-ios/git/commits/ff0f592ac9e09333d20a0871b3e5d1fce25516f4",
+        "html_url": "https://github.com/shake24342/vipvip-ios/commit/ff0f592ac9e09333d20a0871b3e5d1fce25516f4"
+      }
+    ],
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null,
+      "verified_at": null
+    }
+  }
+}
