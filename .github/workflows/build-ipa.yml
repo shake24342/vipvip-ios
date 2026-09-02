@@ -10,6 +10,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: build-ipa
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: macos-14
@@ -19,8 +23,7 @@ jobs:
 
       - name: Select Xcode
         run: |
-          ls /Applications | grep -i xcode || true
-          sudo xcode-select -s /Applications/Xcode_15.4.app 2>/dev/null || sudo xcode-select -s /Applications/Xcode_15.3.app 2>/dev/null || true
+          sudo xcode-select -s /Applications/Xcode_16.2.app
           xcodebuild -version
 
       - name: Install xcodegen
