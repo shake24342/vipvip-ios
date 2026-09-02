@@ -29,6 +29,11 @@ jobs:
       - name: Install xcodegen
         run: brew install xcodegen
 
+      - name: Unpack gallery assets
+        run: |
+          unzip -q gallery.zip -d VipPanel/Resources
+          echo "gallery photos: $(ls VipPanel/Resources/Gallery/full | wc -l)"
+
       - name: Generate project
         run: xcodegen generate
 
