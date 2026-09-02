@@ -56,4 +56,5 @@ enum Store {
     static let kDomains = "domains_cache"
     static let kLastSync = "last_sync"
     static let kLastConfirm = "last_confirm"
+    static let kSource = "data_source"
 }
