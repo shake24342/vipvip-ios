@@ -8,11 +8,11 @@ enum GalleryStore {
     /// 首页横幅展示位
     static let heroNumber = 53
 
-    /// 账号行圆形头像池（30 张，按 slot 分配，主体居中适合方形裁剪）
+    /// 账号行整图预览池（30 张姿态差异大的，按 slot 分配）
     static let avatarPool: [Int] = [
-        53, 25, 42, 8, 24, 43, 15, 20, 21, 22,
-        23, 26, 27, 30, 31, 32, 33, 34, 36, 44,
-        46, 49, 50, 51, 52, 54, 55, 60, 63, 64,
+        3, 8, 24, 27, 33, 37, 51, 55, 64, 10,
+        5, 22, 42, 43, 53, 60, 63, 66, 15, 25,
+        26, 30, 34, 46, 6, 12, 35, 48, 49, 52,
     ]
 
     static func avatarNumber(for slot: Int) -> Int {
@@ -41,11 +41,11 @@ enum GalleryStore {
     }
 }
 
-// MARK: - 圆形头像
+// MARK: - 账号行整图预览（2:3 与原图同比例,整张显示不裁脸）
 
-struct AvatarView: View {
+struct CoverPhoto: View {
     let number: Int
-    var size: CGFloat = 44
+    var width: CGFloat = 50
 
     var body: some View {
         Group {
@@ -56,15 +56,18 @@ struct AvatarView: View {
             } else {
                 Color(.systemGray4)
                     .overlay(
-                        Image(systemName: "person.fill")
-                            .font(.system(size: size * 0.45))
-                            .foregroundStyle(.white.opacity(0.7))
+                        Image(systemName: "photo")
+                            .font(.system(size: 18))
+                            .foregroundStyle(.white.opacity(0.6))
                     )
             }
         }
-        .frame(width: size, height: size)
-        .clipShape(Circle())
-        .overlay(Circle().strokeBorder(Color(.separator), lineWidth: 0.5))
+        .frame(width: width, height: width * 1.5)
+        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .strokeBorder(Color(.separator), lineWidth: 0.5)
+        )
     }
 }
 
