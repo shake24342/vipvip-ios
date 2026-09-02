@@ -7,6 +7,7 @@ struct OverviewView: View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
+                    heroCard
                     dataStatusCard
                     statsSection
                     actionSection
@@ -32,6 +33,16 @@ struct OverviewView: View {
             }
         }
         .navigationViewStyle(.stack)
+    }
+
+    // MARK: 角色横幅
+
+    private var heroCard: some View {
+        HeroPhotoCard(
+            number: GalleryStore.heroNumber,
+            height: 180,
+            overlayText: "今日已签 \(vm.statSigned) / \(vm.statTotal) · \(vm.sourceText)"
+        )
     }
 
     // MARK: 数据状态
