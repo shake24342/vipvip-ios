@@ -73,12 +73,24 @@ struct StatCell: View {
 struct EmptyBox: View {
     var title: String
     var hint: String
+    var photo: Int? = nil
 
     var body: some View {
-        VStack(spacing: 10) {
-            Image(systemName: "tray")
-                .font(.system(size: 34))
-                .foregroundStyle(.tertiary)
+        VStack(spacing: 12) {
+            if let n = photo, let im = GalleryStore.full(n) {
+                Image(uiImage: im)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxHeight: 380)
+                    .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                    .padding(.horizontal, 36)
+                    .shadow(color: .black.opacity(0.12), radius: 10, y: 4)
+            } else {
+                Image(systemName: "tray")
+                    .font(.system(size: 34))
+                    .foregroundStyle(.tertiary)
+                    .padding(.top, 12)
+            }
             Text(title)
                 .font(.system(size: 15, weight: .medium))
                 .foregroundStyle(.secondary)
@@ -86,8 +98,9 @@ struct EmptyBox: View {
                 .font(.system(size: 12))
                 .foregroundStyle(.tertiary)
                 .multilineTextAlignment(.center)
+                .padding(.bottom, 12)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 48)
+        .padding(.vertical, 28)
     }
 }
