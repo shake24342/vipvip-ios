@@ -28,6 +28,23 @@ final class PanelViewModel: ObservableObject {
     @Published var refreshTotal = 0
     @Published var banner: Banner?
 
+    enum DataSource { case builtin, synced }
+    @Published var source: DataSource = .builtin
+
+    var sourceText: String {
+        switch source {
+        case .builtin:
+            return "内置快照" + (lastConfirmDate.isEmpty ? "" : "（确认日 \(lastConfirmDate)）")
+        case .synced:
+            if let last = lastSync {
+                let f = DateFormatter()
+                f.dateFormat = "MM-dd HH:mm"
+                return "已同步 \(f.string(from: last))"
+            }
+            return "已同步"
+        }
+    }
+
     struct Banner: Identifiable, Equatable {
         let id = UUID()
         var text: String
@@ -43,18 +60,32 @@ final class PanelViewModel: ObservableObject {
         _apiDomain = Published(initialValue: savedDomain)
         api = APIClient(baseURL: savedDomain)
 
+        // 优先级:本地最新缓存 → 内置脱敏快照(构建时生成,打开即可看,同网页公开版)
         if let data = UserDefaults.standard.data(forKey: Store.kAccounts),
-           let list = try? JSONDecoder().decode([Account].self, from: data) {
+           let list = try? JSONDecoder().decode([Account].self, from: data), !list.isEmpty {
             accounts = list
+            source = .synced
+        } else if let builtin = Self.loadBuiltinSnapshot() {
+            accounts = builtin.accounts
+            domains = builtin.domainHistory
+            lastConfirmDate = builtin.lastConfirmDate
+            source = .builtin
         }
+
         if let data = UserDefaults.standard.data(forKey: Store.kDomains),
            let list = try? JSONDecoder().decode([DomainEntry].self, from: data) {
             domains = list
         }
-        lastConfirmDate = UserDefaults.standard.string(forKey: Store.kLastConfirm) ?? ""
+        lastConfirmDate = UserDefaults.standard.string(forKey: Store.kLastConfirm) ?? lastConfirmDate
         if let ts = UserDefaults.standard.object(forKey: Store.kLastSync) as? Date {
             lastSync = ts
         }
+    }
+
+    private static func loadBuiltinSnapshot() -> PanelState? {
+        guard let url = Bundle.main.url(forResource: "snapshot", withExtension: "json"),
+              let data = try? Data(contentsOf: url) else { return nil }
+        return try? JSONDecoder().decode(PanelState.self, from: data)
     }
 
     // MARK: 统计（口径与网页面板一致）
@@ -90,6 +121,7 @@ final class PanelViewModel: ObservableObject {
             if !state.apiDomain.isEmpty {
                 apiDomain = state.apiDomain
             }
+            source = .synced
             lastSync = Date()
             persist()
             banner = Banner(text: "已加载 \(accounts.count) 个账号", isError: false)
@@ -205,6 +237,7 @@ final class PanelViewModel: ObservableObject {
     // MARK: 持久化
 
     func persist() {
+        UserDefaults.standard.set(source == .synced, forKey: Store.kSource)
         if let d = try? JSONEncoder().encode(accounts) {
             UserDefaults.standard.set(d, forKey: Store.kAccounts)
         }
