@@ -9,6 +9,8 @@ struct RootView: View {
                 .tabItem { Label("总览", systemImage: "chart.bar") }
             AccountListView()
                 .tabItem { Label("账号", systemImage: "person.3") }
+            GalleryView()
+                .tabItem { Label("图集", systemImage: "photo.on.rectangle.angled") }
             DomainView()
                 .tabItem { Label("域名", systemImage: "globe") }
             SettingsView()
