@@ -118,11 +118,9 @@ struct AccountRow: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 9) {
-            HStack(alignment: .center, spacing: 10) {
-                Image(systemName: iconName)
-                    .font(.system(size: 16))
-                    .foregroundStyle(Theme.statusColor(account))
-                    .frame(width: 22)
+            HStack(alignment: .center, spacing: 11) {
+                AvatarView(number: GalleryStore.avatarNumber(for: account.slot), size: 46)
+                    .opacity(account.dead ? 0.4 : 1)
 
                 VStack(alignment: .leading, spacing: 3) {
                     HStack(spacing: 6) {
@@ -198,15 +196,6 @@ struct AccountRow: View {
                 Label("刷新实时状态", systemImage: "arrow.clockwise")
             }
         }
-    }
-
-    private var iconName: String {
-        if account.dead { return "xmark.circle.fill" }
-        if account.delay > 0 { return "hourglass" }
-        if account.days >= 15 { return "star.circle.fill" }
-        if account.days >= 7 { return "bolt.circle.fill" }
-        if account.days > 0 { return "calendar.circle.fill" }
-        return "clock.circle.fill"
     }
 
     private var secondaryText: String {
