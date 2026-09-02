@@ -20,6 +20,11 @@ targets:
     platform: iOS
     sources:
       - path: VipPanel
+        excludes:
+          - "Resources/Gallery"
+      - path: VipPanel/Resources/Gallery
+        type: folder
+        buildPhase: resources
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.vippanel.panel
